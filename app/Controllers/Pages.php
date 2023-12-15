@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Controllers;
-use App\Models\Produk;
+use App\Models\OrderModel;
 
 class Pages extends BaseController
 {
@@ -30,9 +30,18 @@ class Pages extends BaseController
             return redirect()->to('/login');
         }
 
-        $model = model(Produk::class);
-        $data['produk'] = $model->getProduk();
-        return view('layout/header', $data). view('layout/sidebar').view('pages/dashboard').view('layout/footer');
+        $orderModel = model(OrderModel::class);
+
+        // Mendapatkan semua pesanan
+        $data['orders'] = $orderModel->getOrders();
+
+        
+
+        // Mendapatkan detail pesanan berdasarkan id_supply (ganti dengan id_supply yang sesuai)
+        
+        
+
+        return view('layout/header', $data).view('layout/sidebar'). view('pages/dashboard') . view('layout/footer');
     }
 
     public function restock(): string

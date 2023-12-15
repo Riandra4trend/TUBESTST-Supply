@@ -23,15 +23,13 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($orders as $item) : ?>
+                <?php foreach ($orders as $index => $item) : ?>
                     <?php
                         $backgroundColorClass = $index % 2 === 0 ? 'bg-[#F3F3F3]' : 'bg-[#FDFDFD]';
                     ?>
                     <?php
-                        $data['orderDetails'] = $orderModel->getOrderDetails($item['id_supply']);
-                        
-                        // Mendapatkan total harga berdasarkan id_supply (ganti dengan id_supply yang sesuai)
-                        $data['totalPrice'] = $orderModel->getTotalPrice($item['id_supply']);
+                        use App\Models\OrderModel;
+                        $orderModel = model(OrderModel::class);
                         $oderdetails = $orderModel->getOrderDetails($item['id_supply']);
                         $totalPrice = $orderModel->getTotalPrice($item['id_supply']);
                         
