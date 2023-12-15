@@ -11,8 +11,8 @@ class ProdukControllers extends BaseController
             
         $model = model(Supply::class);
         $data['supply'] = $model->getSupply();
-        return view('header', $data).
-        view('dashboard').view('footer');
+        return view('layout/header', $data). view('layout/sidebar').
+        view('pages/dashboard').view('layout/footer');
 
         
     }

@@ -16,7 +16,7 @@ defined('BASEPATH');
         <!-- <div class="flex justify-center py-8 ">
             <img src="/next.svg" alt="logo" width="100" height="100">
         </div> -->
-<div class=" flex flex-col gap-6 mt-20">
+    <div class=" flex flex-col gap-6 mt-20">
 
     <div class="font-bold flex px-8 text-gray-700">General</div>
     
@@ -25,7 +25,7 @@ defined('BASEPATH');
             <div class="text-xl ml-5 text-black">Dashboard</div>
         </div>
     
-</div>
+    </div>
         
 
         <div class="mt-64">
