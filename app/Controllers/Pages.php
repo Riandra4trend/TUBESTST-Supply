@@ -19,7 +19,7 @@ class Pages extends BaseController
     public function register(): string
     {
         if (session()->get('num_user') == '') {
-            return redirect()->to('/login');
+            return redirect()->to('pages/login');
         }
         return view('layout/sidebar').view('pages/register').view('layout/footer');
     }
@@ -33,15 +33,11 @@ class Pages extends BaseController
         $orderModel = model(OrderModel::class);
 
         // Mendapatkan semua pesanan
-        $data['orders'] = $orderModel->getOrders();
+        $data['orders'] = $orderModel->getOrderDetails();        // Mendapatkan detail pesanan berdasarkan id_supply (ganti dengan id_supply yang sesuai)
 
-        
+       
 
-        // Mendapatkan detail pesanan berdasarkan id_supply (ganti dengan id_supply yang sesuai)
-        
-        
-
-        return view('layout/header', $data).view('layout/sidebar'). view('pages/dashboard') . view('layout/footer');
+        return view('layout/header',$data) . view('layout/sidebar') . view('pages/dashboard') . view('layout/footer');
     }
 
     public function restock(): string
@@ -55,7 +51,7 @@ class Pages extends BaseController
     public function historyRestock(): string
     {
         if (session()->get('num_user') == '') {
-            return redirect()->to('/login');
+            return redirect()->to('pages/login');
         }
         return view("layout/header").view('layout/sidebar').view('pages/historyRestock').view('layout/footer');
     }

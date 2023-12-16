@@ -1,40 +1,46 @@
 <?php
+
 namespace App\Models;
 
 use CodeIgniter\Model;
-
 
 class OrderModel extends Model
 {
     protected $table = 'supply';
     protected $primaryKey = 'id_supply';
+
     public function getOrders()
     {
         return $this->findAll();
     }
 
-    public function getOrderDetails($id_supply)
-    {   
-        
-        return $this->db->table('supply s')
-            ->select('dc.nama_cabang, dc.alamat, dp.nama, dp.harga, dp.stock, dp.batas_bawah, dp.kuantitas_restock, s.status_pembayaran, s.status_pengiriman')
-            ->join('detail_produk dp', 'dp.id_produk = s.id_produk', 'left')
-            ->join('data_cabang dc', 'dc.id_cabang = dp.id_cabang', 'left')
-            ->where('s.id_supply', $id_supply)
-            ->get()
-            ->getResultArray();
-    }
-    
-    public function getTotalPrice($id_supply)
-    {
-        return $this->db->table('detail_produk dp')
-            ->selectSum('dp.harga * dp.kuantitas_restock', 'total_price')
-            ->join('supply s', 's.id_produk = dp.id_produk', 'left')
-            ->where('s.id_supply', $id_supply)
-            ->get()
-            ->getRow()->total_price;
-    }
+    public function getOrderDetails()
+{
+    $sql = "SELECT dc.nama_cabang, dc.alamat, dp.nama, dp.harga, dp.stock, dp.batas_bawah, dp.kuantitas_restock, s.status_pembayaran, s.status_pengiriman
+        FROM supply s
+        LEFT JOIN produk_supply ps ON ps.id_supply = s.id_supply
+        LEFT JOIN detail_produk dp ON dp.id_produk = ps.id_produk
+        LEFT JOIN data_cabang dc ON dc.id_cabang = ps.id_cabang";
+
+        $query = $this->db->query($sql);
+        $result = $query->getResultArray();
+
+        return $result;
 }
 
+    public function getTotalPrice($id_supply)
+    {
+        $db = \Config\Database::connect();
+        $sql = "SELECT SUM(dp.harga * dp.kuantitas_restock) AS total_price
+        FROM detail_produk dp
+        LEFT JOIN produk_supply ps ON ps.id_produk = dp.id_produk
+        LEFT JOIN supply s ON s.id_supply = ps.id_supply
+        WHERE s.id_supply = $id_supply";
 
+        $query = $db->query($sql);
+        $result = $query->getRow()->total_price;
 
+        return $result;
+
+    }
+}
