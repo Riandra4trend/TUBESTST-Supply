@@ -8,12 +8,13 @@ class LoginController extends BaseController{
     }
     public function login_action()
     {
+        
         $model = model(Login::class);
         $email = $this->request->getPost('email');
         $password = md5($this->request->getPost('password'));
-        $cek = $model->getDataUsers($email, $password);
-        if ($cek == 1){
-            session()->set('num_user', $cek);
+        $result = $model->findUserInApi($email, $password);
+        if ($result['found']){
+            session()->set('num_user', $result['location']);
             return redirect()->to('pages/dashboard');
         } else {
             return redirect()->to('pages/login');

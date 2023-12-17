@@ -39,11 +39,18 @@
                     // buat array yang berisi nama_cabang dan alamatnya
                     ?>
                     <tr class="rounded-lg <?= $backgroundColorClass ?> border-b-2 border-gray-200">
-                    
-                        <td class="text-center py-4"><?= $item['nama_cabang']?></td>
-                        <td class="text-center py-4"><?= $item['alamat']?></td>
-                        <td class="text-center py-4"><?= $item['nama']?></td>
-                        <td class="text-center py-4"><?= $item['harga']?></td>
+                    <?php foreach ($item['order_details'] as $detail) : ?>
+                        <td class="text-center py-4"><?= $detail['nama_cabang']?></td>
+                        <td class="text-center py-4"><?= $detail['alamat']?></td>
+                        <td class="text-center py-4">
+                            
+                                <div>
+                                    <?= $detail['nama'] ?> - <?= $detail['harga'] ?> - <?= $detail['stock'] ?>
+                                    <!-- Add other details as needed -->
+                                </div>
+                        </td>
+                        <?php endforeach; ?>
+                        <td class="text-center py-4"><?= $item['total_price']?></td>
                         <td class="text-center py-4"><?= $item['status_pembayaran']?></td>
                         <td class="text-center py-4"><?= $item['status_pengiriman']?></td>
                         <td class="text-center py-4">

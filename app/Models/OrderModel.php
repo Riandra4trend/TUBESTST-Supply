@@ -14,13 +14,14 @@ class OrderModel extends Model
         return $this->findAll();
     }
 
-    public function getOrderDetails()
+    public function getOrderDetails($id_supply)
 {
     $sql = "SELECT dc.nama_cabang, dc.alamat, dp.nama, dp.harga, dp.stock, dp.batas_bawah, dp.kuantitas_restock, s.status_pembayaran, s.status_pengiriman
         FROM supply s
         LEFT JOIN produk_supply ps ON ps.id_supply = s.id_supply
         LEFT JOIN detail_produk dp ON dp.id_produk = ps.id_produk
-        LEFT JOIN data_cabang dc ON dc.id_cabang = ps.id_cabang";
+        LEFT JOIN data_cabang dc ON dc.id_cabang = ps.id_cabang
+        WHERE s.id_supply = $id_supply";
 
         $query = $this->db->query($sql);
         $result = $query->getResultArray();

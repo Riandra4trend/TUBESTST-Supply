@@ -567,6 +567,9 @@ video {
 .ml-6 {
   margin-left: 1.5rem;
 }
+.ml-72 {
+  margin-left: 18rem;
+}
 .ml-\[470px\] {
   margin-left: 470px;
 }
@@ -822,9 +825,6 @@ video {
 }
 .pl-12 {
   padding-left: 3rem;
-}
-.pl-72 {
-  padding-left: 18rem;
 }
 .pl-\[22px\] {
   padding-left: 22px;
