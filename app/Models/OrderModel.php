@@ -16,32 +16,39 @@ class OrderModel extends Model
 
     public function getOrderDetails($id_supply)
 {
-    $sql = "SELECT dc.nama_cabang, dc.alamat, dp.nama, dp.harga, dp.stock, dp.batas_bawah, dp.kuantitas_restock, s.status_pembayaran, s.status_pengiriman
-        FROM supply s
-        LEFT JOIN produk_supply ps ON ps.id_supply = s.id_supply
-        LEFT JOIN detail_produk dp ON dp.id_produk = ps.id_produk
-        LEFT JOIN data_cabang dc ON dc.id_cabang = ps.id_cabang
-        WHERE s.id_supply = $id_supply";
+    $response = \Config\Services::curlrequest()->get("http://localhost:8080/supplierAPI");
 
-        $query = $this->db->query($sql);
-        $result = $query->getResultArray();
+        if ($response->getStatusCode() == 200) {
+            $supplier = json_decode($response->getBody(), true);
+        }
+        
+        // dd($supplier);
+        $suppliers = [];
+        foreach ($supplier['supplier'] as $s) {
+            if ($s['id_supply'] == $id_supply) {
+                array_push($suppliers, $s);
+            }
+        }
+        
 
-        return $result;
+        return $suppliers;
 }
 
     public function getTotalPrice($id_supply)
     {
-        $db = \Config\Database::connect();
-        $sql = "SELECT SUM(dp.harga * dp.kuantitas_restock) AS total_price
-        FROM detail_produk dp
-        LEFT JOIN produk_supply ps ON ps.id_produk = dp.id_produk
-        LEFT JOIN supply s ON s.id_supply = ps.id_supply
-        WHERE s.id_supply = $id_supply";
+        $response1 = \Config\Services::curlrequest()->get("http://localhost:8080/produkPriceAPI");
 
-        $query = $db->query($sql);
-        $result = $query->getRow()->total_price;
+        if ($response1->getStatusCode() == 200) {
+            $totalPrice = json_decode($response1->getBody(), true);
+        }
 
-        return $result;
+        foreach ($totalPrice['totalPrice'] as $t) {
+            if ($t['id_supply'] == $id_supply) {
+                $total_harga = $t['total_harga'];
+            }
+        }
+
+        return $total_harga;
 
     }
 }

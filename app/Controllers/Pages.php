@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controllers;
+
 use App\Models\OrderModel;
 
 class Pages extends BaseController
@@ -8,12 +9,12 @@ class Pages extends BaseController
 
     public function index(): string
     {
-        return view('layout/header').view('pages/landingPage').view('layout/footer');
+        return view('layout/header') . view('pages/landingPage') . view('layout/footer');
     }
 
     public function login(): string
     {
-        return view('layout/header').view('pages/login').view('layout/footer');
+        return view('layout/header') . view('pages/login') . view('layout/footer');
     }
 
     public function register(): string
@@ -21,15 +22,48 @@ class Pages extends BaseController
         if (session()->get('num_user') == '') {
             return redirect()->to('/login');
         }
-        return view('layout/sidebar').view('pages/register').view('layout/footer');
+        return view('layout/sidebar') . view('pages/register') . view('layout/footer');
     }
 
+    // if (session()->get('num_user') == '') {
+    //     return redirect()->to('/login');
+    // }
     public function dashboard(): string
     {
-        if (session()->get('num_user') == '') {
-            return redirect()->to('/login');
-        }
 
+        $response2 = \Config\Services::curlrequest()->get("http://localhost:8080/supplyAPI");
+if ($response2->getStatusCode() == 200) {
+    $supplyID = json_decode($response2->getBody(), true);
+}
+
+$supplyArray = [];
+
+$orderModel = model(OrderModel::class);
+
+foreach ($supplyID['supply'] as $item) {
+    $supply = [
+        'id_supply' => $item['id_supply'],
+        'id_kurir' => $item['id_kurir'],
+        'status_pengiriman' => $item['status_pengiriman'],
+        'status_pembayaran' => $item['status_pembayaran'],
+        'order_details' => $orderModel->getOrderDetails($item['id_supply']),
+        'total_price' => $orderModel->getTotalPrice($item['id_supply']),
+    ];
+
+    $supplyArray[] = $supply;
+}
+
+$data['supply'] = $supplyArray;
+// dd($data['supply']);
+
+        // $data['title'] = 'Dashboard';
+        //
+// dd($data['supply']);
+
+        // $data['title'] = 'Dashboard';
+        //
+
+return view('layout/header', $data) . view('layout/sidebar') . view('pages/dashboard') . view('layout/footer');
         //BUKAN API API API API API API
         // $orderModel = model(OrderModel::class);
 
@@ -48,18 +82,6 @@ class Pages extends BaseController
         // $data['orders'] = $orders;
 
         // API API API API API API
-        $numuser = session()->get('num_user');
-        $response = \Config\Services::curlrequest()->get("http://localhost:8080/SupplierAPI/{$numuser}");
-
-        if ($response->getStatusCode() == 200) {
-            $data['orders'] = json_decode($response->getBody(), true);
-             // Lakukan sesuatu dengan data dari API
-        } else {
-            echo 'Error: ' . $response->getStatusCode();
-        }
-       
-
-        return view('layout/header',$data) . view('layout/sidebar') . view('pages/dashboard') . view('layout/footer');
     }
 
     public function restock(): string
@@ -67,7 +89,7 @@ class Pages extends BaseController
         if (session()->get('num_user') == '') {
             return redirect()->to('/login');
         }
-        return view("layout/header").view('layout/sidebar').view('pages/restock').view('layout/footer');
+        return view("layout/header") . view('layout/sidebar') . view('pages/restock') . view('layout/footer');
     }
 
     public function historyRestock(): string
@@ -75,7 +97,7 @@ class Pages extends BaseController
         if (session()->get('num_user') == '') {
             return redirect()->to('/login');
         }
-        return view("layout/header").view('layout/sidebar').view('pages/historyRestock').view('layout/footer');
+        return view("layout/header") . view('layout/sidebar') . view('pages/historyRestock') . view('layout/footer');
     }
 
     public function historyPurchase(): string
@@ -83,8 +105,6 @@ class Pages extends BaseController
         if (session()->get('num_user') == '') {
             return redirect()->to('/login');
         }
-        return view("layout/header").view('layout/sidebar').view('pages/historyPurchase').view('layout/footer');
+        return view("layout/header") . view('layout/sidebar') . view('pages/historyPurchase') . view('layout/footer');
     }
-
-
 }

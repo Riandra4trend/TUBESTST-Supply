@@ -27,50 +27,38 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($orders as $index => $item) : ?>
-                    <?php
-                    $backgroundColorClass = $index % 2 === 0 ? 'bg-[#F3F3F3]' : 'bg-[#FDFDFD]';
-                    ?>
-                    <?php
 
-
-                    // disini buatkan array order details sesuai dengan item["id_supply"] array 
-                    // tampilkan hasil total price total dari perkalian harga dan jumlah serta keseluruhan produk
-                    // buat array yang berisi nama_cabang dan alamatnya
-                    ?>
-                    <tr class="rounded-lg <?= $backgroundColorClass ?> border-b-2 border-gray-200">
-                    <?php foreach ($item['order_details'] as $detail) : ?>
-                        <td class="text-center py-4"><?= $detail['nama_cabang']?></td>
-                        <td class="text-center py-4"><?= $detail['alamat']?></td>
+                <?php foreach ($supply as $item) : ?>
+                    <tr class="rounded-lg  border-b-2 border-gray-200">
+                        <td class="text-center py-4"><?= $item['order_details'][0]['nama_cabang'] ?></td>
+                        <td class="text-center py-4"><?= $item['order_details'][0]['alamat'] ?></td>
                         <td class="text-center py-4">
-                            
+                            <?php foreach ($item['order_details'] as $detail) : ?>
+
                                 <div>
                                     <?= $detail['nama'] ?> - <?= $detail['harga'] ?> - <?= $detail['stock'] ?>
                                     <!-- Add other details as needed -->
                                 </div>
+                                <?php endforeach; ?>
                         </td>
-                        <?php endforeach; ?>
-                        <td class="text-center py-4"><?= $item['total_price']?></td>
-                        <td class="text-center py-4"><?= $item['status_pembayaran']?></td>
-                        <td class="text-center py-4"><?= $item['status_pengiriman']?></td>
-                        <td class="text-center py-4">
+                    <td class="text-center py-4"><?= $item['total_price'] ?></td>
+                    <td class="text-center py-4"><?= $item['status_pembayaran'] ?></td>
+                    <td class="text-center py-4"><?= $item['status_pengiriman'] ?></td>
+                    <td class="text-center py-4">
                         <button class="text-center px-4 py-1 bg-[#70CC40] hover:bg-[#70CC90] rounded-lg text-black text-sm font-bold" type="submit">
                             Confirm
                         </button>
-                        </td>
-                        <td class="text-center py-4">
+                    </td>
+                    <td class="text-center py-4">
                         <button class="text-center px-4 py-1 bg-[#FF0000] hover:bg-red-900 rounded-lg text-black text-sm font-bold" type="submit">
                             Cancel
                         </button>
-                        </td>
-                        
+                    </td>
+
 
                     </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
-
-
     </div>
-
 </div>
