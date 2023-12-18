@@ -13,3 +13,6 @@ $routes->get('pages/restock', 'Pages::restock');
 $routes->get('pages/historyRestock', 'Pages::historyRestock');
 $routes->get('pages/historyPurchase', 'Pages::historyPurchase');
 $routes->get('pages/logout', 'LoginController::logout');
+// File: app/Config/Routes.php
+
+$routes->post('/dashboard/updateStatus/(:any)/(:any)', 'Pages::updateStatus/$1/$2');

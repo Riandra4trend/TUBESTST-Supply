@@ -83,6 +83,30 @@ return view('layout/header', $data) . view('layout/sidebar') . view('pages/dashb
 
         // API API API API API API
     }
+    // Controller: app/Controllers/Pages.php
+
+public function updateStatus($id_supply, $status)
+{
+    // Validasi atau otentikasi jika diperlukan
+
+    // Lakukan pemanggilan API untuk mengubah status_pengiriman
+    $postData = [
+        'id_supply' => $id_supply,
+        'status_pengiriman' => $status,
+    ];
+
+    $curl = \Config\Services::curlrequest();
+    $response = \Config\Services::curlrequest()->post("http://localhost:8080/supplyAPI/edit/{$id_supply}/{$status}");
+
+    if ($response->getStatusCode() == 200) {
+        // Sukses, tambahkan logika lain jika diperlukan
+        return redirect()->to('pages/dashboard')->with('success', 'Status updated successfully');
+    } else {
+        // Gagal, tambahkan logika lain jika diperlukan
+        return redirect()->to('pages/dashboard')->with('error', 'Failed to update status');
+    }
+}
+
 
     public function restock(): string
     {
