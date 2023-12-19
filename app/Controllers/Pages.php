@@ -31,7 +31,8 @@ class Pages extends BaseController
     public function dashboard(): string
     {
 
-        $response2 = \Config\Services::curlrequest()->get("http://localhost:8080/supplyAPI");
+        $numUser = session()->get('num_user');
+        $response2 = \Config\Services::curlrequest()->get("http://localhost:8080/supplyAPI/{$numUser}");
 if ($response2->getStatusCode() == 200) {
     $supplyID = json_decode($response2->getBody(), true);
 }

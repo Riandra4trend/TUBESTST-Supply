@@ -16,7 +16,8 @@ class OrderModel extends Model
 
     public function getOrderDetails($id_supply)
 {
-    $response = \Config\Services::curlrequest()->get("http://localhost:8080/supplierAPI");
+    $numUser = session()->get('num_user');
+    $response = \Config\Services::curlrequest()->get("http://localhost:8080/supplierAPI/{$numUser}");
 
         if ($response->getStatusCode() == 200) {
             $supplier = json_decode($response->getBody(), true);
@@ -36,7 +37,8 @@ class OrderModel extends Model
 
     public function getTotalPrice($id_supply)
     {
-        $response1 = \Config\Services::curlrequest()->get("http://localhost:8080/produkPriceAPI");
+        $numUser = session()->get('num_user');
+        $response1 = \Config\Services::curlrequest()->get("http://localhost:8080/produkPriceAPI/{$numUser}");
 
         if ($response1->getStatusCode() == 200) {
             $totalPrice = json_decode($response1->getBody(), true);
