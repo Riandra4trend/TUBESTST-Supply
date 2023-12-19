@@ -45,14 +45,14 @@
                     <td class="text-center py-4"><?= $item['status_pembayaran'] ?></td>
                     <td class="text-center py-4"><?= $item['status_pengiriman'] ?></td>
                     <td class="text-center py-4">
-    <form action="updateStatus/<?= $item['id_supply'] ?>/On%20Progress" method="post">
+    <form action="localhost:8080/supplyAPI/edit/<?= $item['id_supply'] ?>/On%20Progress" method="post">
         <button class="text-center px-4 py-1 bg-[#70CC40] hover:bg-[#70CC90] rounded-lg text-black text-sm font-bold" type="submit">
             Confirm
         </button>
     </form>
 </td>
 <td class="text-center py-4">
-    <form action="updateStatus/<?= $item['id_supply'] ?>/Cancel" method="post">
+    <form action="localhost:8080/supplyAPI/edit/<?= $item['id_supply'] ?>/Cancel" method="post">
         <button class="text-center px-4 py-1 bg-[#FF0000] hover:bg-red-900 rounded-lg text-black text-sm font-bold" type="submit">
             Cancel
         </button>

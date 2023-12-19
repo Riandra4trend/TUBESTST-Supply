@@ -15,5 +15,5 @@ $routes->get('pages/historyPurchase', 'Pages::historyPurchase');
 $routes->get('pages/logout', 'LoginController::logout');
 // File: app/Config/Routes.php
 
-$routes->post('/dashboard/updateStatus/(:any)/(:any)', 'Pages::updateStatus/$1/$2');
-$routes->post('updateStatus/(:any)/(:any)', 'Supply::confirm_action/$1/$2');
+// $routes->post('/dashboard/updateStatus/(:any)/(:any)', 'Pages::updateStatus/$1/$2');
+// $routes->post('updateStatus/(:any)/(:any)', 'Supply::confirm/$1/$2');

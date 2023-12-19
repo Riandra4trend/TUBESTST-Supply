@@ -32,29 +32,29 @@ class Pages extends BaseController
     {
 
         $numUser = session()->get('num_user');
-            $response2 = \Config\Services::curlrequest()->get("http://localhost:8080/supplyAPI/{$numUser}");
-        if ($response2->getStatusCode() == 200) {
-            $supplyID = json_decode($response2->getBody(), true);
+        $response2 = \Config\Services::curlrequest()->get("http://localhost:8080/supplyAPI/{$numUser}");
+if ($response2->getStatusCode() == 200) {
+    $supplyID = json_decode($response2->getBody(), true);
 }
 
-        $supplyArray = [];
+$supplyArray = [];
 
-        $orderModel = model(OrderModel::class);
+$orderModel = model(OrderModel::class);
 
-        foreach ($supplyID['supply'] as $item) {
-            $supply = [
-                'id_supply' => $item['id_supply'],
-                'id_kurir' => $item['id_kurir'],
-                'status_pengiriman' => $item['status_pengiriman'],
-                'status_pembayaran' => $item['status_pembayaran'],
-                'order_details' => $orderModel->getOrderDetails($item['id_supply']),
-                'total_price' => $orderModel->getTotalPrice($item['id_supply']),
-            ];
+foreach ($supplyID['supply'] as $item) {
+    $supply = [
+        'id_supply' => $item['id_supply'],
+        'id_kurir' => $item['id_kurir'],
+        'status_pengiriman' => $item['status_pengiriman'],
+        'status_pembayaran' => $item['status_pembayaran'],
+        'order_details' => $orderModel->getOrderDetails($item['id_supply']),
+        'total_price' => $orderModel->getTotalPrice($item['id_supply']),
+    ];
 
-            $supplyArray[] = $supply;
-        }
+    $supplyArray[] = $supply;
+}
 
-        $data['supply'] = $supplyArray;
+$data['supply'] = $supplyArray;
 // dd($data['supply']);
 
         // $data['title'] = 'Dashboard';

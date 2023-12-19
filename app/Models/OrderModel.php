@@ -43,10 +43,11 @@ class OrderModel extends Model
         if ($response1->getStatusCode() == 200) {
             $totalPrice = json_decode($response1->getBody(), true);
         }
-
+        
         foreach ($totalPrice['totalPrice'] as $t) {
             if ($t['id_supply'] == $id_supply) {
-                $total_harga = $t['total_harga'];
+                $total_harga = $t['total_price'];
+
             }
         }
 
